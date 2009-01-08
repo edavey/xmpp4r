@@ -333,7 +333,7 @@ module Jabber
       # node:: [String]
       # return:: [Array] of [Jabber::Pubsub::Subscription]
       def get_subscriptions_from(node)
-        iq = basic_pubsub_query(:get)
+        iq = basic_pubsub_query(:get, "ownerusecase")
         entities = iq.pubsub.add(REXML::Element.new('subscriptions'))
         entities.attributes['node'] = node
         res = nil
