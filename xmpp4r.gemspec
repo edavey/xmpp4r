@@ -81,7 +81,6 @@ Gem::Specification.new do |s|
  "lib/xmpp4r/bytestreams/helper/socks5bytestreams/server.rb",
  "lib/xmpp4r/bytestreams/helper/socks5bytestreams/socks5.rb",
  "lib/xmpp4r/bytestreams/helper/socks5bytestreams/target.rb",
- "lib/xmpp4r/bytestreams/helper/socks5bytestreams/target.rb.orig",
  "lib/xmpp4r/bytestreams/iq",
  "lib/xmpp4r/bytestreams/iq/bytestreams.rb",
  "lib/xmpp4r/bytestreams/iq/si.rb",
@@ -156,6 +155,7 @@ Gem::Specification.new do |s|
  "lib/xmpp4r/pubsub/children/items.rb",
  "lib/xmpp4r/pubsub/children/node_config.rb",
  "lib/xmpp4r/pubsub/children/publish.rb",
+ "lib/xmpp4r/pubsub/children/retract.rb",
  "lib/xmpp4r/pubsub/children/subscription.rb",
  "lib/xmpp4r/pubsub/children/subscription_config.rb",
  "lib/xmpp4r/pubsub/children/unsubscribe.rb",
@@ -284,7 +284,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.8.4"
   s.required_rubygems_version = ">= 0"
   s.rubyforge_project = "xmpp4r"
-  s.rubygems_version = "1.2.0"
+  s.rubygems_version = "1.3.1"
   s.specification_version = 2
   s.summary = "XMPP4R is an XMPP/Jabber library for Ruby."
   s.version = "0.4"

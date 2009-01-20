@@ -38,6 +38,15 @@ module Jabber
         end
         fields
       end
+      
+      def fields_and_values
+        f_and_v = {}
+        REXML::XPath.match(fields, '//field').each do |f|
+          values = REXML::XPath.match(f, 'value').map {|v| v.text}
+          f_and_v[f.attributes['var'].to_sym] = values.size == 1 ? values.to_s : values
+        end
+        f_and_v
+      end
 
       ##
       # Type of this Data Form
