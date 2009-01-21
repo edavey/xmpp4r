@@ -38,7 +38,10 @@ module Jabber
         end
         fields
       end
-      
+
+      ##
+      # The field names and their values in a hash
+      # return:: [Hash] of fields names and their values
       def fields_and_values
         f_and_v = {}
         REXML::XPath.match(fields, '//field').each do |f|
@@ -46,6 +49,24 @@ module Jabber
           f_and_v[f.attributes['var'].to_sym] = values.size == 1 ? values.to_s : values
         end
         f_and_v
+      end
+      
+      ##
+      # Populate a dataform using a hash of fields and values. Values can be either strings in the
+      # case of :text_single types or arrays in the case of :text_multi types.
+      # fields_and_values:: [Hash]
+      def fill_form(fields_and_values)
+        count = 0
+        fields_and_values.each do |field, values|
+          if values.class == String 
+            self << ::Jabber::Dataforms::XDataField.new(field.to_sym, :text_single)
+            self.children[count].value = (values)
+          else
+            self << ::Jabber::Dataforms::XDataField.new(field.to_sym, :text_multi)
+            self.children[count].values = (values)
+          end
+          count += 1
+        end        
       end
 
       ##
