@@ -1,0 +1,20 @@
+:address: 
+  :type: :text_multi
+  :value: 
+  - |
+    White House
+
+  - |
+    Washington
+
+  - USA
+:valued_qualities: 
+  :type: :list_multi
+  :value: 
+  - Handsome
+  - Persuasive
+  - Well-groomed
+  - Charismatic
+:name: 
+  :type: :text_single
+  :value: Barak Obama

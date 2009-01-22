@@ -45,8 +45,13 @@ module Jabber
       def fields_and_values
         f_and_v = {}
         REXML::XPath.match(fields, '//field').each do |f|
-          values = REXML::XPath.match(f, 'value').map {|v| v.text}
-          f_and_v[f.attributes['var'].to_sym] = values.size == 1 ? values.to_s : values
+          unless f.attributes['type'] =~ /multi/
+            f_and_v[f.attributes['var'].to_sym] = {:type => f.type,
+                                                   :value => f.elements['value'].text}
+          else
+            values = REXML::XPath.match(f, 'value').map {|v| v.text}
+            f_and_v[f.attributes['var'].to_sym] = {:type => f.type, :value => values}
+          end
         end
         f_and_v
       end
@@ -58,13 +63,8 @@ module Jabber
       def fill_form(fields_and_values)
         count = 0
         fields_and_values.each do |field, values|
-          if values.class == String 
-            self << ::Jabber::Dataforms::XDataField.new(field.to_sym, :text_single)
-            self.children[count].value = (values)
-          else
-            self << ::Jabber::Dataforms::XDataField.new(field.to_sym, :text_multi)
-            self.children[count].values = (values)
-          end
+          self << ::Jabber::Dataforms::XDataField.new(field.to_sym, values[:type].to_sym)
+          self.children[count].values = (values[:value])
           count += 1
         end        
       end

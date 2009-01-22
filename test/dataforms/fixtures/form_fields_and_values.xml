@@ -1,0 +1,33 @@
+<x xmlns='jabber:x:data'>
+  <field type='text-single' var='date'>
+    <value>
+      2009-01-21T11:01:35+00:00
+    </value>
+  </field>
+  <field type='text-single' var='session_id'>
+    <value>
+      12345
+    </value>
+  </field>
+  <field type='text-multi' var='question'>
+    <value>
+      How do I calculate the 
+    </value>
+    <value>
+      area of a circle
+    </value>
+  </field>
+  <field type='list-multi' var='subjects'>
+    <value>
+      English
+    </value>
+    <value>
+      French
+    </value>
+  </field>
+  <field type='jid-single' var='student'>
+    <value>
+      barak.obama@whitehouse.gov.us/capitol
+    </value>
+  </field>
+</x>

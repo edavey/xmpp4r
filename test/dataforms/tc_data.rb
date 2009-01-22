@@ -3,6 +3,7 @@
 $:.unshift File::dirname(__FILE__) + '/../../lib'
 
 require 'test/unit'
+require "yaml"
 require 'xmpp4r/dataforms'
 include Jabber
 
@@ -12,11 +13,11 @@ class DataFormsTest < Test::Unit::TestCase
     v = Dataforms::XDataTitle.new
     assert_nil(v.title)
     assert_equal("", v.to_s)
-
+  
     v = Dataforms::XDataInstructions.new
     assert_nil(v.instructions)
     assert_equal("", v.to_s)
-
+  
     v = Dataforms::XDataField.new
     assert_nil(v.label)
     assert_nil(v.var)
@@ -24,7 +25,7 @@ class DataFormsTest < Test::Unit::TestCase
     assert_equal(false, v.required?)
     assert_equal([], v.values)
     assert_equal({}, v.options)
-
+  
     v = Dataforms::XData.new
     assert_equal([], v.fields)
     assert_nil(v.type)
@@ -77,5 +78,40 @@ class DataFormsTest < Test::Unit::TestCase
     assert_nil(v.field('wrong field'))
     assert_equal([f], v.fields)
    end
+
+  def test_should_fill_in_form_correctly_when_passed_hash
+    f_and_v_yml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.yml"
+    f_and_v_xml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.xml"
+    
+    f_and_v = open(f_and_v_yml) {|f| YAML.load(f)} 
+ 	  form = Jabber::Dataforms::XData.new
+ 	  form.fill_form f_and_v
+ 	  
+ 	  formatter = REXML::Formatters::Pretty.new
+ 	  generated_xml = String.new
+ 	  formatter.write(form.root, generated_xml) 	  
+ 	  
+    expected_xml = open(f_and_v_xml) { |f| f.read } 
+
+    assert_equal(expected_xml, generated_xml)
+  end
+
+  def test_should_return_a_hash_of_field_names_and_values
+    f_and_v_yml = "#{File.dirname(__FILE__)}/fixtures/names_and_values.yml"
+    expected_f_and_v = open(f_and_v_yml) {|f| YAML.load(f)} 
+    
+    form = Jabber::Dataforms::XData.new
+    form << ::Jabber::Dataforms::XDataField.new(:name, :text_single)
+    form.children[0].values = ("Barak Obama")
+    form << ::Jabber::Dataforms::XDataField.new(:address, :text_multi)
+    form.children[1].values = ("White House\nWashington\nUSA")
+    form << ::Jabber::Dataforms::XDataField.new(:valued_qualities, :list_multi)
+    form.children[2].values = (["Handsome", "Persuasive", "Well-groomed", "Charismatic"])
+    
+    generated_f_and_v = form.fields_and_values
+    
+    assert_equal(expected_f_and_v, generated_f_and_v)
+  end
+
 
 end
