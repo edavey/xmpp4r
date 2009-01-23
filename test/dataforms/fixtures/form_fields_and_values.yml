@@ -1,15 +1,26 @@
-:date: 
-  :type:   :text_single
-  :value:  "2009-01-21T11:01:35+00:00"
-:session_id:
-  :type:   :text_single 
-  :value:  "12345"
-:question: 
-  :type:   :text_multi  
-  :value:  "How do I calculate the \narea of a circle"
-:subjects: 
-  :type:   :list_multi  
-  :value:  ["English", "French"]
-:student: 
-  :type:   :jid_single
-  :value:  "barak.obama@whitehouse.gov.us/capitol"
+--- !ruby/object:Dictionary 
+hash: 
+  :date: 
+    :type:   :text_single
+    :value:  "2009-01-21T11:01:35+00:00"
+  :session_id:
+    :type:   :text_single 
+    :value:  "12345"
+  :question: 
+    :type:   :text_multi  
+    :value:  "How do I calculate the \narea of a circle"
+  :subjects: 
+    :type:   :list_multi  
+    :value:  ["English", "French"]
+  :student: 
+    :type:   :jid_single
+    :value:  "barak.obama@whitehouse.gov.us/capitol"
+
+order: 
+- :student
+- :date
+- :session_id
+- :question
+- :subjects
+order_by:
+

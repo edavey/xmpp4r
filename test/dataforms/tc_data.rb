@@ -79,17 +79,11 @@ class DataFormsTest < Test::Unit::TestCase
     assert_equal([f], v.fields)
    end
 
-  def test_should_fill_in_form_correctly_when_passed_hash
-    
+
+  def test_should_fill_in_form_correctly_when_passed_hash    
     input_yml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.yml"
     ex_xml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.xml"
-    
-    input_hsh = open(input_yml) {|f| YAML.load(f)} 
-    input_f_and_v = Dictionary[ :student,    input_hsh[:student], 
-                                :date,       input_hsh[:date], 
-                                :session_id, input_hsh[:session_id],
-                                :question,   input_hsh[:question],
-                                :subjects,   input_hsh[:subjects] ]
+    input_f_and_v = open(input_yml) {|f| YAML.load(f)} 
     
  	  form = Jabber::Dataforms::XData.new
  	  form.fill_form input_f_and_v
@@ -106,10 +100,7 @@ class DataFormsTest < Test::Unit::TestCase
 
   def test_should_return_a_hash_of_field_names_and_values
     ex_yml = "#{File.dirname(__FILE__)}/fixtures/names_and_values.yml"
-    ex_hsh = open(ex_yml) {|f| YAML.load(f)} 
-    expected_f_and_v = Dictionary[ :name,             ex_hsh[:name], 
-                                   :address,          ex_hsh[:address], 
-                                   :valued_qualities, ex_hsh[:valued_qualities] ]
+    expected_f_and_v = open(ex_yml) {|f| YAML.load(f)} 
     
     form = Jabber::Dataforms::XData.new
     form << ::Jabber::Dataforms::XDataField.new(:name, :text_single)
