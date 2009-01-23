@@ -4,6 +4,8 @@
 
 require 'xmpp4r/x'
 require 'xmpp4r/jid'
+require 'rubygems'
+require 'facets/dictionary'
 
 module Jabber
   module Dataforms
@@ -43,7 +45,7 @@ module Jabber
       # The field names and their values in a hash
       # return:: [Hash] of fields names and their values
       def fields_and_values
-        f_and_v = {}
+        f_and_v = Dictionary.new
         REXML::XPath.match(fields, '//field').each do |f|
           unless f.attributes['type'] =~ /multi/
             f_and_v[f.attributes['var'].to_sym] = {:type => f.type,

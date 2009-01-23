@@ -19,7 +19,7 @@ end
 
 Rake::TestTask.new do |t|
   t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
+  t.pattern = 'test/**/tc_*.rb'
   t.verbose = false
 end
 
@@ -33,7 +33,7 @@ end
 
 Rcov::RcovTask.new do |t|
   t.libs << 'test'
-  t.test_files = FileList['test/**/*_test.rb']
+  t.test_files = FileList['test/**/tc_*.rb']
   t.verbose = true
 end
 

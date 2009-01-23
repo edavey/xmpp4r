@@ -80,25 +80,36 @@ class DataFormsTest < Test::Unit::TestCase
    end
 
   def test_should_fill_in_form_correctly_when_passed_hash
-    f_and_v_yml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.yml"
-    f_and_v_xml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.xml"
     
-    f_and_v = open(f_and_v_yml) {|f| YAML.load(f)} 
+    input_yml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.yml"
+    ex_xml = "#{File.dirname(__FILE__)}/fixtures/form_fields_and_values.xml"
+    
+    input_hsh = open(input_yml) {|f| YAML.load(f)} 
+    input_f_and_v = Dictionary[ :student,    input_hsh[:student], 
+                                :date,       input_hsh[:date], 
+                                :session_id, input_hsh[:session_id],
+                                :question,   input_hsh[:question],
+                                :subjects,   input_hsh[:subjects] ]
+    
  	  form = Jabber::Dataforms::XData.new
- 	  form.fill_form f_and_v
+ 	  form.fill_form input_f_and_v
  	  
- 	  formatter = REXML::Formatters::Pretty.new
+ 	  formatter = REXML::Formatters::Pretty.new 
  	  generated_xml = String.new
+ 	  expected_xml = String.new    
+
  	  formatter.write(form.root, generated_xml) 	  
- 	  
-    expected_xml = open(f_and_v_xml) { |f| f.read } 
+    formatter.write(REXML::Document.new(File.open(ex_xml)), expected_xml)
 
     assert_equal(expected_xml, generated_xml)
   end
 
   def test_should_return_a_hash_of_field_names_and_values
-    f_and_v_yml = "#{File.dirname(__FILE__)}/fixtures/names_and_values.yml"
-    expected_f_and_v = open(f_and_v_yml) {|f| YAML.load(f)} 
+    ex_yml = "#{File.dirname(__FILE__)}/fixtures/names_and_values.yml"
+    ex_hsh = open(ex_yml) {|f| YAML.load(f)} 
+    expected_f_and_v = Dictionary[ :name,             ex_hsh[:name], 
+                                   :address,          ex_hsh[:address], 
+                                   :valued_qualities, ex_hsh[:valued_qualities] ]
     
     form = Jabber::Dataforms::XData.new
     form << ::Jabber::Dataforms::XDataField.new(:name, :text_single)
