@@ -1,28 +1,22 @@
---- !ruby/object:Dictionary 
-hash: 
-  :name: 
-    :type: :text_single
-    :value: Barak Obama
-  :address: 
-    :type: :text_multi
-    :value: 
-    - |
-      White House
+--- 
+- :var:  name 
+  :type: :text_single
+  :value: Barak Obama
+- :var: address 
+  :type: :text_multi
+  :value: 
+  - |
+    White House
 
-    - |
-      Washington
+  - |
+    Washington
 
-    - USA
-  :valued_qualities: 
-    :type: :list_multi
-    :value: 
-    - Handsome
-    - Persuasive
-    - Well-groomed
-    - Charismatic
+  - USA
+- :var: valued_qualities 
+  :type: :list_multi
+  :value: 
+  - Handsome
+  - Persuasive
+  - Well-groomed
+  - Charismatic
 
-order: 
-- :name
-- :address
-- :valued_qualities
-order_by: 

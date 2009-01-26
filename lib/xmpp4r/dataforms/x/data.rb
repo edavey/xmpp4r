@@ -4,8 +4,6 @@
 
 require 'xmpp4r/x'
 require 'xmpp4r/jid'
-require 'rubygems'
-require 'facets/dictionary'
 
 module Jabber
   module Dataforms
@@ -43,16 +41,17 @@ module Jabber
 
       ##
       # The field names and their values in a hash
-      # return:: [Hash] of fields names and their values
+      # return:: [Array] of hashes containing fields names, their types and their values.
       def fields_and_values
-        f_and_v = Dictionary.new
+        f_and_v = []
         REXML::XPath.match(fields, '//field').each do |f|
           unless f.attributes['type'] =~ /multi/
-            f_and_v[f.attributes['var'].to_sym] = {:type => f.type,
-                                                   :value => f.elements['value'].text}
+            f_and_v << {:var => f.attributes['var'], :type => f.type, 
+                        :value => f.elements['value'].text}
           else
             values = REXML::XPath.match(f, 'value').map {|v| v.text}
-            f_and_v[f.attributes['var'].to_sym] = {:type => f.type, :value => values}
+            f_and_v << {:var => f.attributes['var'], :type => f.type, 
+                        :value => values}
           end
         end
         f_and_v
@@ -64,9 +63,9 @@ module Jabber
       # fields_and_values:: [Hash]
       def fill_form(fields_and_values)
         count = 0
-        fields_and_values.each do |field, values|
-          self << ::Jabber::Dataforms::XDataField.new(field.to_sym, values[:type].to_sym)
-          self.children[count].values = (values[:value])
+        fields_and_values.each do |item|
+          self << ::Jabber::Dataforms::XDataField.new(item[:var].to_sym, item[:type].to_sym)
+          self.children[count].values = (item[:value])
           count += 1
         end        
       end
