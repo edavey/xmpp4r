@@ -64,7 +64,7 @@ module Jabber
       def fill_form(fields_and_values)
         count = 0
         fields_and_values.each do |item|
-          self << ::Jabber::Dataforms::XDataField.new(item[:var].to_sym, item[:type].to_sym)
+          self << ::Jabber::Dataforms::XDataField.new(item[:var], item[:type])
           self.children[count].values = (item[:value])
           count += 1
         end        
